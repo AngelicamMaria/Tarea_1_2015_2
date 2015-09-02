@@ -1,0 +1,40 @@
+
+        """
+        return (('A', A, B) if accion == 'irA' else
+                ('B', A, B) if accion == 'irB' else
+                (robot, A, B) if accion == 'noOp' else
+                ('A', 'limpio', B) if accion == 'limpiar' and robot == 'A' else
+                ('B', A, 'limpio'))
+        """
+        
+    """"
+    Clase para un entorno de dos cuartos. Muy sencilla solo regrupa métodos.
+
+    El estado se define como
+                (robot, A, B) // refiniendo (robot, A,B,C,D,E,F)
+    donde robot puede tener los valores "A", "B"
+    A y B pueden tener los valores "limpio", "sucio"
+    //Refiniendo: puede tener valor desde A a F y cada uno puede ser limio p sucio
+
+    Las acciones válidas en el entorno son
+            "irA", "irB", "limpiar" y "noOp".
+            //refiniendo para 6 cuartos:
+            //Derecha, Izquierda, arriba, abajo, limpiar, noOp
+            // La accion de derecha no es valido en los cuartos de hasta la izquierda.
+            //La acion de la izquierda no es valido en los cuartos de hasta la izquierda.
+            //La acion de subir y bajar, solamente es valido en los cuartos de las esquinas.
+            //Los cuartos estan de estas dos maneras:
+            |D|E|F|
+            |A|B|C|
+
+    Los sensores es una tupla
+                (robot, limpio?)
+    con la ubicación del robot y el estado de limieza
+
+    """"
+     """ print accion + 
+        anteriormente: robot, A, B, C, D, E, F = estado
+        recordando que estado es un arreglo 
+        En caso de la acciond e la derecha...
+        """
+       
