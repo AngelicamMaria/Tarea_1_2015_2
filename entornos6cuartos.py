@@ -7,6 +7,8 @@ Modificado por ANgelica....
 
 """
 
+
+
 __author__ = 'juliowaissman'
 
 class Entorno(object):
@@ -72,7 +74,7 @@ class Agente(object):
         @return: accion: Acción seleccionada por el agente, utilizando su programa de agente.
 
         """
-        print percepcion, 'lool'
+        #print percepcion, 'lool'
         pass
 
 
@@ -97,6 +99,7 @@ def simulador(entorno, agente, estado_inicial, pasos=10, verbose=True):
         estados.append(estado_n)
         acciones.append(accion)
         estado = estado_n
+       
 
     if verbose:
         print "\n\nSimulacion de entorno tipo {0} con el agente tipo {1}\n".format(str(type(entorno)),

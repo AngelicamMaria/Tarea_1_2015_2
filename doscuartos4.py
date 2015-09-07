@@ -84,15 +84,30 @@ class AgenteReactivoDoscuartos(entornos.Agente):
     def programa(self, percepcion):
         robot, situacion = percepcion[0], percepcion[1]
         #print 'Robot: ', percepcion
+        #A, B, = self.modelo[1], self.modelo[2] #Tiene memoria de las esperiencias pasadas..
+        """
+        El ejente limpia el .8 de las veces... el reto lo deja sucio. 
+        Si esta en A se va a B y si esta en B se va para A
+        """
         a = random.random()*1
-        if situacion == 'sucio':
-            if a < 0.8:
-                return 'limpiar'
-            if a >= 0.8:
-                return 'noOp'
+        
+        if situacion == 'sucio': #El cuarto esta sucio... lo limpia
+            if robot == 'A':
+                if a < 0.8:
+                    return 'limpiar'
+                if a >= 0.8:
+                    return 'noOp'
                 #'limpiar' if situacion == 'sucio' else
-        return ('irA' if robot == 'B' else
-                'irB')
+            if robot == 'B':
+                if a < 0.8:
+                    return 'limpiar'
+                if a >= 0.8:
+                    return 'noOp'
+        if robot == 'A':
+            return 'irB'
+        if robot == 'B':
+            return 'irA'
+
 
 
 class AgenteReactivoModeloDosCuartos(entornos.Agente):
@@ -132,16 +147,16 @@ def test():
     entornos.simulador(DosCuartos(),
                        AgenteAleatorio(['irA', 'irB', 'limpiar', 'noOp']),
                        ('A', 'sucio', 'sucio'), 50)
-
+    #Se modifica para ser el ajente reactivo
     print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos.simulador(DosCuartos(),
                        AgenteReactivoDoscuartos(),
                        ('A', 'sucio', 'sucio'), 50)
-
+    """
     print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
-                       ('A', 'sucio', 'sucio'), 50)
+                       ('A', 'sucio', 'sucio'), 50)"""
 
 if __name__ == '__main__':
     test()
