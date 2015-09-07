@@ -89,23 +89,21 @@ class AgenteReactivoDoscuartos(entornos3.Agente):
         Sabe en que cuarto esta... pero no sabe si esta limpio o sucio. Asi que hice esto para que si no elije limpiar, se va al otro cuarto. 
         """
         if robot == 'A':
-            if  0.0 < a < .3:
+            if  0.0 < a < .5:
                 return 'limpiar'
-            if 0.4 < a < .6:
+            else:
                 return 'irB'
-            if a >= .7:
-                return 'noOp'
         else: #en caso que est[e en un cuarto, pero no puede saber si esta suicio o limpio. 
-            if  0.0 < a < .3:
+            if  0.0 < a < .5:
                 return 'limpiar'
-            if 0.4 < a < .6:
+            else:
                 return 'irB'
-            if a >= .7:
-                return 'noOp'
+        
+        """
         return ('limpiar' if situacion == 'sucio' else
                 'irA' if robot == 'B' else
                 'irB')
-
+        """
 
 class AgenteReactivoModeloDosCuartos(entornos3.Agente):
     """

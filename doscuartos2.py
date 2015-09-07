@@ -111,6 +111,9 @@ class AgenteReactivoModeloDosCuartos(entornos2.Agente):
 
         # Decide sobre el modelo interno
         A, B = self.modelo[1], self.modelo[2]
+        """
+        Esto ya estaba hecho... no veo diferencia..  a lo que pide el inciso 2
+        """
         return ('noOp' if A == B == 'limpio' else
                 'limpiar' if situacion == 'sucio' else
                 'irA' if robot == 'B' else
@@ -128,15 +131,19 @@ def test():
                        AgenteAleatorio(['irA', 'irB', 'limpiar', 'noOp']),
                        ('A', 'sucio', 'sucio'), 100)
 
-    print "Prueba del entorno de dos cuartos con un agente reactivo"
+    """print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos2.simulador(DosCuartos(),
                        AgenteReactivoDoscuartos(),
                        ('A', 'sucio', 'sucio'), 100)
-
-    """print "Prueba del entorno de dos cuartos con un agente reactivo"
+    """
+    print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos2.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
                        ('A', 'sucio', 'sucio'), 100)
-    """
+   
 if __name__ == '__main__':
     test()
+
+"""
+Ël inciso2 ya estaba hecho por el profe... Como iba amodificar esto?
+"""
