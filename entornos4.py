@@ -3,7 +3,7 @@
 """
 entornos.py
 ------------
-Modificado por ANgelica....
+
 
 """
 
@@ -17,10 +17,10 @@ class Entorno(object):
 
     def transicion(self, estado, accion):
         """
-        @param estado: Tupla con un estado válido para el entorno
-        @param accion: Uno de los elementos de acciones_legales( estado)
+        param estado: Tupla con un estado válido para el entorno
+        param accion: Uno de los elementos de acciones_legales( estado)
 
-        @return: el estado a donde transita el entorno cuando el 
+        return: el estado a donde transita el entorno cuando el 
                  agente aplica la acción o una tupla de pares ordenados 
                  con el posible estado nuevo y su probabilidad.
 
@@ -72,7 +72,6 @@ class Agente(object):
         @return: accion: Acción seleccionada por el agente, utilizando su programa de agente.
 
         """
-        print percepcion, 'lool'
         pass
 
 
@@ -101,9 +100,19 @@ def simulador(entorno, agente, estado_inicial, pasos=10, verbose=True):
     if verbose:
         print "\n\nSimulacion de entorno tipo {0} con el agente tipo {1}\n".format(str(type(entorno)),
                                                                                    str(type(agente)))
-
         print "{0}{1}{2}{3}".format('Paso'.center(10), 'Estado'.center(40), 'Accion'.center(25), 'Desempeño'.center(15))
 
+        """
+        print "\n\nSimulacion de entorno tipo " + \
+              str(type(entorno)) + \
+              " con el agente tipo " + \
+              str(type(agente)) + "\n"
+
+        print 'Paso'.center(10) + \
+              'Estado'.center(40) + \
+              'Accion'.center(25) + \
+              u'Desempeño'.center(15)
+        """
         print '_' * (10 + 40 + 25 + 15)
         
         for i in range(pasos):

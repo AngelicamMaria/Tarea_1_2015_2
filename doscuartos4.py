@@ -12,6 +12,7 @@ __author__ = 'juliowaissman'
 
 import entornos
 from random import choice
+import random
 
 
 class DosCuartos(entornos.Entorno):
@@ -83,9 +84,14 @@ class AgenteReactivoDoscuartos(entornos.Agente):
     def programa(self, percepcion):
         robot, situacion = percepcion[0], percepcion[1]
         #print 'Robot: ', percepcion
-        
-        return ('limpiar' if situacion == 'sucio' else
-                'irA' if robot == 'B' else
+        a = random.random()*1
+        if situacion == 'sucio':
+            if a < 0.8:
+                return 'limpiar'
+            if a >= 0.8:
+                return 'noOp'
+                #'limpiar' if situacion == 'sucio' else
+        return ('irA' if robot == 'B' else
                 'irB')
 
 
@@ -125,17 +131,17 @@ def test():
     print "Prueba del entorno de dos cuartos con un agente aleatorio"
     entornos.simulador(DosCuartos(),
                        AgenteAleatorio(['irA', 'irB', 'limpiar', 'noOp']),
-                       ('A', 'sucio', 'sucio'), 100)
+                       ('A', 'sucio', 'sucio'), 50)
 
     print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos.simulador(DosCuartos(),
                        AgenteReactivoDoscuartos(),
-                       ('A', 'sucio', 'sucio'), 100)
+                       ('A', 'sucio', 'sucio'), 50)
 
     print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
-                       ('A', 'sucio', 'sucio'), 100)
+                       ('A', 'sucio', 'sucio'), 50)
 
 if __name__ == '__main__':
     test()

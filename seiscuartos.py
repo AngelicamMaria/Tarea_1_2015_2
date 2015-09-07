@@ -14,6 +14,7 @@ By: Angelica
 
 import entornos6cuartos
 from random import choice
+import random
 
 
 class DosCuartos(entornos6cuartos.Entorno):
@@ -56,7 +57,7 @@ class DosCuartos(entornos6cuartos.Entorno):
                 return ('A', A, B, C, D, E, F)
             if robot == 'C':
                 return ('B', A, B, C, D, E, F)
-            else: 
+            else:
                 return estado
         """
         En caso de la accion Subir..
@@ -68,6 +69,7 @@ class DosCuartos(entornos6cuartos.Entorno):
                 return ('D', A, B, C, D, E, F)
             else:
                 return estado
+          
         """
         En caso de la accion Bajar..
         """
@@ -82,27 +84,27 @@ class DosCuartos(entornos6cuartos.Entorno):
         En caso de la accion Limpiar
         """
         if accion == 'limpiar':
-            if robot == 'A' and A == 'sucio':
+            if robot == 'A':
                 return ('A','limpio', B, C, D, E ,F)
-            if robot =='B' and B == 'sUcio':
+            if robot =='B':
                 return ('B', A, 'limpio', C, D, E, F)
-            if robot == 'C' and C == 'sucio':
+            if robot == 'C':
                 return ('C', A, B, 'limpio', D, E ,F)
-            if robot == 'D' and D == 'sucio':
+            if robot == 'D':
                 return ('D', A, B, C, 'limpio', E, F)
-            if robot == 'E' and E == 'sucio':
+            if robot == 'E':
                 return ('E', A, B, C, D, 'limpio', F)
-            if robot == 'F' and F == 'sucio':
+            if robot == 'F':
                 return ('F', A, B, C, D, E, 'limpio')
             else:
                 return estado
         if accion == 'noOp':
             return estado
-
+        
 
     def sensores(self, estado):
 
-        robot = estado
+        robot, A, B, C, D, E, F = estado
         """
         robot, A, B, C, D, E, F = estado"""
 
@@ -123,11 +125,31 @@ class DosCuartos(entornos6cuartos.Entorno):
         """return robot, A if robot == 'A' else B"""
 
     def accion_legal(self, estado, accion):
-        return accion in ('Derecha', 'Izquierda', 'limpiar', 'Subir','Bajar','noOp')
+        robot = estado[0]
+        #print estado , '........', accion
+
+        #dependiando del lugar las acciones se reducen. Si el robot sabe en que cuarto esta, las acciones que este puede realisar serian limitadas. 
+        #dependeran del cuarto.  Mayor probabilidades de terminar.
+        
+        return accion in ('limpiar','Derecha', 'Subir', 'Bajar', 'Izquierda', 'noOp')
+         
 
     def desempeno_local(self, estado, accion):
         robot, A, B,C,D,E,F = estado
-        return 0 if accion == 'noOp' and A == B == C == D == E == F == 'limpio' else -1
+        #primero se revisa si todos los cuartos estan limpios
+        if A == B == C == D == E == F == 'limpio':
+            return 0
+        #Se revisa si laaccion  es nada
+        if accion == 'noOp':
+            return 0
+        #despues, se dice si es subir o bajar son mas costosas que ir de derecha o izquierda.
+        if accion == 'Subir' or accion == 'Bajar':
+            return 2
+        if accion == 'Derecha'  or accion == 'Izquierda' or accion == 'limpiar':
+            return 1
+
+            
+        #return 0 if accion == 'noOp' and A == B == C == D == E == F == 'limpio' else -1
 
 
 class AgenteAleatorio(entornos6cuartos.Agente):
@@ -139,6 +161,7 @@ class AgenteAleatorio(entornos6cuartos.Agente):
         self.acciones = acciones
 
     def programa(self, percepcion):
+        #print 'Percepcion: ', percepcion, '\t AgenteAleatorio'
         return choice(self.acciones)
 
 
@@ -149,24 +172,64 @@ class AgenteReactivoDoscuartos(entornos6cuartos.Agente):
     """
 
     def programa(self, percepcion):
-        robot = percepcion
-        situacion = percepcion
-       # print 'Percepcion: ', percepcion
-      #  return 'noNe'
 
+        robot = percepcion[0]
+        situacion = percepcion[1]
+        # print 'Percepcion: ', situacion,'Robot: ',robot, '\t AgenteReactivoDosCuartos'
+        #return 'noNe'
+        a = random.random()*1
+        #print a 
+        #return 'noOp'
+       
         if situacion == 'sucio':
             return 'limpiar'
-        if robot == 'B' or robot == 'A' or robot == 'D' or robot == 'E':
-            return 'Derecha'
+        
+        if robot == 'B':
+            if a < 0.5:
+                return 'Derecha'
+            else: 
+                return 'Izquierda'
+        
+        if robot == 'A':
+            if a < 0.5:
+                return 'Subir'
+            else: 
+                return 'Derecha'
+            #return random.choice('Derecha','Subir')
+        if robot == 'C':
+            if a < 0.5:
+                return 'Subir'
+            else: 
+                return 'Izquierda'
+            #return random.choice('Subir','Izquierda')
+        if robot == 'D':
+            if a < 0.5:
+                return 'Bajar'
+            else: 
+                return 'Derecha'
+            #return random.choice('Derecha','Bajar')
+        if robot == 'E':
+            if a < 0.5:
+                return 'Derecha'
+            else: 
+                return 'Izquierda'
+            #return random.choice('Derecha','Izquierda')
+        if robot == 'F':
+            if a < 0.5:
+                return 'Bajar'
+            else: 
+                return'Izquierda'
+            #return random.choice('Bajar','Izquierda')
+        """
         if robot == 'B' or robot == 'C' or robot == 'E' or robot == 'F':
             return 'Izquierda'
         if robot == 'A' or robot == 'C':
             return 'Subir'
         if robot == 'D' or robot == 'E':
             return 'Bajar'
-        return 'noOp'
-
-        """
+        if A == B == C == D == F == E == 'limpio':
+            return 'noOp'
+    
         Original
          return ('limpiar' if situacion == 'sucio' else
                 'irA' if robot == 'B' else
@@ -188,40 +251,39 @@ class AgenteReactivoModeloDosCuartos(entornos6cuartos.Agente):
 
     def programa(self, percepcion):
         robot, situacion = percepcion
-
         # Actualiza el modelo interno
-        self.modelo[0] = robot
+        robot = self.modelo[0]
+        #print 'Percepcion: ', percepcion, '\t AgenteReactivoModeloDosCuartos'
         self.modelo[self.lugar[robot]] = situacion
 
         # Decide sobre el modelo interno
         A, B ,C, D, E, F= self.modelo[1], self.modelo[2], self.modelo[3], self.modelo[4], self.modelo[5], self.modelo[6]
+        #print A, B, C, D, E, F
         return ('noOp' if A == B ==C == D ==E == F == 'limpio' else
                 'limpiar' if situacion == 'sucio' else
                 'Derecha' if robot == 'B' or robot == 'A' or robot == 'D' or robot == 'E' else
                 'Izquierda' if robot == 'B' or robot == 'C' or robot == 'E' or robot == 'F' else
                 'Subir' if robot =='A' or robot =='C' else
-                'Bajar' if robot =='D' or robot =='F' else
-                'noOp'
+                'Bajar' if robot =='D' or robot =='F' else 'noOp'
                 )
 
 
 def test():
   
-    print "Prueba del entorno de dos cuartos con un agente aleatorio"
-    """entornos6cuartos.simulador(DosCuartos(),
+    """"print "Prueba del entorno de dos cuartos con un agente aleatorio"
+    entornos6cuartos.simulador(DosCuartos(),
                        AgenteAleatorio(['Derecha', 'Izquierda', 'limpiar', 'Subir', 'Bajar', 'noOp']),
                                ['A', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio'],
-                               10)"""
-   
+                               10)
+   """
     print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos6cuartos.simulador(DosCuartos(),
                        AgenteReactivoDoscuartos(),
                                ('A', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio'),
                                100)
- 
-
+    """
     print "Prueba del entorno de dos cuartos con un agente reactivo"
-    """entornos6cuartos.simulador(DosCuartos(),
+    entornos6cuartos.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
                                ('A', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio', 'sucio'),
                                10)
