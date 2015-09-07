@@ -10,12 +10,11 @@ Ejemplo de un entorno muy simple y agentes idem
 
 __author__ = 'juliowaissman'
 
-import entornos3
+import entornos2
 from random import choice
-import random
 
 
-class DosCuartos(entornos3.Entorno):
+class DosCuartos(entornos2.Entorno):
     """
     Todo lo que envie.. supongo qeu se perdio...
     Clase para un entorno de dos cuartos. Muy sencilla solo regrupa métodos.
@@ -63,7 +62,7 @@ class DosCuartos(entornos3.Entorno):
         return 0 if accion == 'noOp' and A == B == 'limpio' else -1
 
 
-class AgenteAleatorio(entornos3.Agente):
+class AgenteAleatorio(entornos2.Agente):
     """
     Un agente que solo regresa una accion al azar entre las acciones legales
 
@@ -75,7 +74,7 @@ class AgenteAleatorio(entornos3.Agente):
         return choice(self.acciones)
 
 
-class AgenteReactivoDoscuartos(entornos3.Agente):
+class AgenteReactivoDoscuartos(entornos2.Agente):
     """
     Un agente reactivo simple
 
@@ -84,30 +83,13 @@ class AgenteReactivoDoscuartos(entornos3.Agente):
     def programa(self, percepcion):
         robot, situacion = percepcion[0], percepcion[1]
         #print 'Robot: ', percepcion
-        a = random.random()*1
-        """
-        Sabe en que cuarto esta... pero no sabe si esta limpio o sucio. Asi que hice esto para que si no elije limpiar, se va al otro cuarto. 
-        """
-        if robot == 'A':
-            if  0.0 < a < .3:
-                return 'limpiar'
-            if 0.4 < a < .6:
-                return 'irB'
-            if a >= .7:
-                return 'noOp'
-        else: #en caso que est[e en un cuarto, pero no puede saber si esta suicio o limpio. 
-            if  0.0 < a < .3:
-                return 'limpiar'
-            if 0.4 < a < .6:
-                return 'irB'
-            if a >= .7:
-                return 'noOp'
+        
         return ('limpiar' if situacion == 'sucio' else
                 'irA' if robot == 'B' else
                 'irB')
 
 
-class AgenteReactivoModeloDosCuartos(entornos3.Agente):
+class AgenteReactivoModeloDosCuartos(entornos2.Agente):
     """
     Un agente reactivo basado en modelo
 
@@ -138,26 +120,23 @@ class AgenteReactivoModeloDosCuartos(entornos3.Agente):
 def test():
     """
     Prueba del entorno y los agentes
+    Inciso 2
 
     """
     print "Prueba del entorno de dos cuartos con un agente aleatorio"
-    entornos3.simulador(DosCuartos(),
+    entornos2.simulador(DosCuartos(),
                        AgenteAleatorio(['irA', 'irB', 'limpiar', 'noOp']),
                        ('A', 'sucio', 'sucio'), 100)
 
-    print "Prueba del entorno de dos cuartos con un agente reactivo" 
-    #Este es el que se modifica para ser modificado...
-    entornos3.simulador(DosCuartos(),
+    print "Prueba del entorno de dos cuartos con un agente reactivo"
+    entornos2.simulador(DosCuartos(),
                        AgenteReactivoDoscuartos(),
                        ('A', 'sucio', 'sucio'), 100)
 
-    """print "Prueba del entorno de dos cuartos con un agente reactivo"
-    entornos3.simulador(DosCuartos(),
+    print "Prueba del entorno de dos cuartos con un agente reactivo"
+    entornos2.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
                        ('A', 'sucio', 'sucio'), 100)
-    """
+
 if __name__ == '__main__':
     test()
-"""
-Como se ve el ajente racional,es mejor que el aleatorio. Ya que tiene menos pasos. 
-"""
