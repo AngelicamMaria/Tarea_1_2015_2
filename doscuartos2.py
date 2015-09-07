@@ -133,10 +133,10 @@ def test():
                        AgenteReactivoDoscuartos(),
                        ('A', 'sucio', 'sucio'), 100)
 
-    print "Prueba del entorno de dos cuartos con un agente reactivo"
+    """print "Prueba del entorno de dos cuartos con un agente reactivo"
     entornos2.simulador(DosCuartos(),
                        AgenteReactivoModeloDosCuartos(),
                        ('A', 'sucio', 'sucio'), 100)
-
+    """
 if __name__ == '__main__':
     test()

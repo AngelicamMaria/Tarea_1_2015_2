@@ -124,3 +124,6 @@ def simulador(entorno, agente, estado_inicial, pasos=10, verbose=True):
         print '_' * (10 + 40 + 25 + 15) + '\n\n'
 
     return estados, acciones, performances
+"""
+Este archivo se ultiliza para el inciso 2 
+"""
